@@ -1,4 +1,7 @@
-extensions [ gis ]
+extensions [
+  gis
+  vid
+]
 
 turtles-own [
   age
@@ -53,6 +56,8 @@ to setup
   setup-humans
   setup-scenario
   reset-ticks
+  vid:reset-recorder
+  vid:start-recorder
 end
 
 to setup-map
@@ -170,6 +175,7 @@ to connect
 end
 
 to go
+  vid:record-view
   if nature = "static" [
     ask turtles with [ breed = helpers ] [
       move
@@ -191,6 +197,8 @@ to go
     unhelp
   ]
   if total-helped = init-count-needys or ticks > 960[
+    vid:save-recording "nicolas_project_out.mp4"
+    vid:movie-open "nicolas_project_out.mp4"
     stop
   ]
   tick
