@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20181118</CreaDate><CreaTime>21074800</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.2\ArcToolbox\Toolboxes\Conversion Tools.tbx\PolygonToRaster" Date="20181118" Time="210748">PolygonToRaster UPLB_LowerCampus_Projected FID D:\OML_2018\CMSC191\UPLB_LowerCampus\UPLB_LowerCampus.tif CELL_CENTER NONE 3</Process></lineage></DataProperties></Esri></metadata>
