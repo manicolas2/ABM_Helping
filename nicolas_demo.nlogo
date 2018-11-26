@@ -101,6 +101,7 @@ end
 to setup-humans
   ask turtles [
     set age random (70) + 10
+    set size 5
   ]
   let number-of-needys 0
   ask n-of (needy-percentage * population) turtles [
@@ -327,11 +328,11 @@ end
 GRAPHICS-WINDOW
 224
 83
-709
-569
+713
+573
 -1
 -1
-11.63415
+1.2
 1
 10
 1
@@ -341,10 +342,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--20
-20
--20
-20
+0
+400
+0
+400
 0
 0
 1
@@ -360,7 +361,7 @@ needy-percentage
 needy-percentage
 0
 1
-0.2
+0.1
 .05
 1
 NIL
@@ -373,10 +374,10 @@ SLIDER
 192
 population
 population
-10
 100
-100.0
-1
+1000
+1000.0
+20
 1
 NIL
 HORIZONTAL
@@ -469,7 +470,7 @@ Frequency
 100.0
 true
 true
-"set-plot-y-range 0 80" ""
+"set-plot-y-range 0 100" ""
 PENS
 "Men" 1.0 0 -13345367 true "" "plot help-from-man?"
 "Women" 1.0 0 -2064490 true "" "plot help-from-woman?"
@@ -488,7 +489,7 @@ Helper
 50.0
 true
 true
-"set-plot-y-range 0 15" ""
+"set-plot-y-range 0 30" ""
 PENS
 "count" 1.0 1 -13840069 true "" "set-histogram-num-bars 6\nhistogram [ age ] of helpers with [ has-helped? = true ] \n"
 "ave-age" 1.0 0 -7500403 true "" "let age-list [ age ] of helpers\nlet min-age round (min age-list)\nlet max-age round (max age-list)\nifelse min-age < max-age \n  [ set-plot-x-range min-age max-age ]\n  [ set-plot-x-range min-age (min-age + 1) ]\n\n\n;; draw gray line in center of distribution\nplot-pen-reset\nlet ave-age mean age-list\nplotxy ave-age 0\nplotxy ave-age 15"
@@ -603,7 +604,7 @@ Needy
 10.0
 true
 true
-"set-plot-y-range 0 5" ""
+"set-plot-y-range 0 20" ""
 PENS
 "count" 1.0 1 -13840069 true "" "set-histogram-num-bars 6\nhistogram [ age ] of needys with [ helped? = true ]"
 "ave-age" 1.0 0 -16777216 true "" "let age-list [ age ] of needys\nlet min-age round (min age-list)\nlet max-age round (max age-list)\nifelse min-age < max-age \n  [ set-plot-x-range min-age max-age ]\n  [ set-plot-x-range min-age (min-age + 1) ]\n\n\n;; draw gray line in center of distribution\nplot-pen-reset\nlet ave-age mean age-list\nplotxy ave-age 0\nplotxy ave-age 15"
@@ -678,7 +679,7 @@ needy-women-percentage
 needy-women-percentage
 0
 1
-0.45
+0.35
 .05
 1
 NIL
@@ -1147,7 +1148,7 @@ NetLogo 6.0.4
     <steppedValueSet variable="cost-of-helping" first="0" step="0.1" last="0.5"/>
     <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
     <enumeratedValueSet variable="population">
-      <value value="100"/>
+      <value value="1000"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="experiment 1 moving" repetitions="10" runMetricsEveryStep="true">
@@ -1167,7 +1168,7 @@ NetLogo 6.0.4
     <steppedValueSet variable="cost-of-helping" first="0" step="0.1" last="0.5"/>
     <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
     <enumeratedValueSet variable="population">
-      <value value="100"/>
+      <value value="1000"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
