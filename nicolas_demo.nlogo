@@ -51,6 +51,7 @@ end
 
 to setup
   ca
+  setup-map
   setup-turtles
   set radius 2
   setup-humans
@@ -101,7 +102,7 @@ end
 to setup-humans
   ask turtles [
     set age random (70) + 10
-    set size 5
+    set size 2
   ]
   let number-of-needys 0
   ask n-of (needy-percentage * population) turtles [
@@ -197,7 +198,7 @@ to go
   ask turtles with [breed = helpers ] [
     unhelp
   ]
-  if total-helped = init-count-needys or ticks > 960[
+  if total-helped = init-count-needys or ticks > 216[
     vid:save-recording "nicolas_project_out.mp4"
     vid:movie-open "nicolas_project_out.mp4"
     stop
@@ -281,7 +282,7 @@ to help
     set helping-probability helping-probability - .20
   ]
   ; actual helping
-  if helping-probability >= .70 [
+  if helping-probability >= helping-threshold [
     if potential-target != nobody [
       set target potential-target
       face target
@@ -328,11 +329,11 @@ end
 GRAPHICS-WINDOW
 224
 83
-713
-573
+683
+543
 -1
 -1
-1.2
+1.0
 1
 10
 1
@@ -343,9 +344,9 @@ GRAPHICS-WINDOW
 1
 1
 0
-400
+450
 0
-400
+450
 0
 0
 1
@@ -361,7 +362,7 @@ needy-percentage
 needy-percentage
 0
 1
-0.1
+0.2
 .05
 1
 NIL
@@ -383,10 +384,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-29
-15
-102
-48
+28
+50
+101
+83
 NIL
 setup
 NIL
@@ -400,10 +401,10 @@ NIL
 1
 
 BUTTON
-119
-15
-189
-48
+118
+50
+188
+83
 NIL
 go
 T
@@ -424,7 +425,7 @@ CHOOSER
 nature
 nature
 "moving" "static"
-0
+1
 
 SLIDER
 13
@@ -435,7 +436,7 @@ women-percentage
 women-percentage
 0
 1
-0.5
+0.0
 .05
 1
 NIL
@@ -450,17 +451,17 @@ cost-of-helping
 cost-of-helping
 0
 1
-0.0
+0.4
 .1
 1
 NIL
 HORIZONTAL
 
 PLOT
-773
-19
-1044
-169
+712
+24
+983
+174
 Gender of Helpers
 Time
 Frequency
@@ -476,10 +477,10 @@ PENS
 "Women" 1.0 0 -2064490 true "" "plot help-from-woman?"
 
 PLOT
-772
-199
-1046
-349
+710
+204
+984
+354
 Age
 Age
 Helper
@@ -495,10 +496,10 @@ PENS
 "ave-age" 1.0 0 -7500403 true "" "let age-list [ age ] of helpers\nlet min-age round (min age-list)\nlet max-age round (max age-list)\nifelse min-age < max-age \n  [ set-plot-x-range min-age max-age ]\n  [ set-plot-x-range min-age (min-age + 1) ]\n\n\n;; draw gray line in center of distribution\nplot-pen-reset\nlet ave-age mean age-list\nplotxy ave-age 0\nplotxy ave-age 15"
 
 MONITOR
-1055
-74
-1173
-119
+993
+79
+1111
+124
 Women
 count helpers with [ gender = \"female\" ]
 17
@@ -506,10 +507,10 @@ count helpers with [ gender = \"female\" ]
 11
 
 MONITOR
-1054
-20
-1174
-65
+993
+24
+1113
+69
 Men
 count helpers with [ gender = \"male\" ]
 17
@@ -517,10 +518,10 @@ count helpers with [ gender = \"male\" ]
 11
 
 MONITOR
-1055
-254
-1168
-299
+993
+259
+1106
+304
 20 - 35 yrs. old
 count helpers with [ age >= 20 and age <= 35 ]
 17
@@ -528,10 +529,10 @@ count helpers with [ age >= 20 and age <= 35 ]
 11
 
 MONITOR
-1054
-199
-1167
-244
+993
+204
+1106
+249
 10 - 19 yrs. old
 count helpers with [ age >= 10 and age < 20 ]
 17
@@ -539,10 +540,10 @@ count helpers with [ age >= 10 and age < 20 ]
 11
 
 MONITOR
-1055
-306
-1169
-351
+993
+310
+1107
+355
 36 and above
 count helpers with [ age > 35 ]
 17
@@ -550,10 +551,10 @@ count helpers with [ age > 35 ]
 11
 
 PLOT
-1203
-20
-1483
-170
+1142
+24
+1422
+174
 Helped Gender
 Time
 Frequency
@@ -569,10 +570,10 @@ PENS
 "Women" 1.0 0 -2064490 true "" "plot helped-woman"
 
 MONITOR
-1490
-70
-1609
-115
+1428
+74
+1547
+119
 Women
 count needys with [gender = \"female\"]
 17
@@ -580,10 +581,10 @@ count needys with [gender = \"female\"]
 11
 
 MONITOR
-1490
-20
-1609
-65
+1428
+24
+1547
+69
 Men
 count needys with [gender = \"male\"]
 17
@@ -591,10 +592,10 @@ count needys with [gender = \"male\"]
 11
 
 PLOT
-1203
-200
-1485
-350
+1142
+204
+1424
+354
 Age of Helped Needy
 Age
 Needy
@@ -610,10 +611,10 @@ PENS
 "ave-age" 1.0 0 -16777216 true "" "let age-list [ age ] of needys\nlet min-age round (min age-list)\nlet max-age round (max age-list)\nifelse min-age < max-age \n  [ set-plot-x-range min-age max-age ]\n  [ set-plot-x-range min-age (min-age + 1) ]\n\n\n;; draw gray line in center of distribution\nplot-pen-reset\nlet ave-age mean age-list\nplotxy ave-age 0\nplotxy ave-age 15"
 
 MONITOR
-1497
-202
-1602
-247
+1435
+207
+1540
+252
 5-16 yrs. old
 count needys with [age < 16]
 17
@@ -621,10 +622,10 @@ count needys with [age < 16]
 11
 
 MONITOR
-1497
-255
-1602
-300
+1435
+259
+1540
+304
 17-50 yrs.old
 count needys with [age > 17 and age < 50]
 17
@@ -632,10 +633,10 @@ count needys with [age > 17 and age < 50]
 11
 
 MONITOR
-1498
-307
-1603
-352
+1437
+312
+1542
+357
 50 and above
 count needys with [ age > 50 ]
 17
@@ -644,31 +645,14 @@ count needys with [ age > 50 ]
 
 INPUTBOX
 15
-387
+432
 210
-447
+492
 raster-color-picker
-66.0
+0.0
 1
 0
 Color
-
-BUTTON
-30
-60
-189
-93
-NIL
-setup-map
-NIL
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
 
 SLIDER
 12
@@ -679,17 +663,17 @@ needy-women-percentage
 needy-women-percentage
 0
 1
-0.35
+0.5
 .05
 1
 NIL
 HORIZONTAL
 
 MONITOR
-548
-22
-701
-67
+534
+23
+687
+68
 NIL
 total-helped
 17
@@ -697,10 +681,10 @@ total-helped
 11
 
 MONITOR
-389
-22
-528
-67
+375
+23
+514
+68
 count needys
 init-count-needys
 17
@@ -708,15 +692,30 @@ init-count-needys
 11
 
 MONITOR
-234
-22
-369
-67
+220
+23
+355
+68
 count helpers
 count turtles with [ breed = helpers ]
 17
 1
 11
+
+SLIDER
+14
+384
+210
+417
+helping-threshold
+helping-threshold
+0
+1
+0.8
+.05
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -727,7 +726,7 @@ It models helping in a university setting where different people in different so
 
 1. Currently, we randomly spawn the turtles in the world. Links are formed if the turtles are within radius of 2 from each of other turtles. If the turtles are linked together, they will be tied so that they will move at a direction together.
 2. The turtles are divided into two breeds: helpers and needys. Helpers will roam around in the world and will help the needys if they can (as determined by their helping capacity and helping probability).
-3. Each helpers will look for its potential target needy and will calculate their own helping probability using equation: helping-pobability = help-capacity - cost-of-helping
+3. Each helpers will look for its potential target needy and will calculate their own helping probability using equation: helping-probability = help-capacity - cost-of-helping
 The helping probability will be further computed by looking at the helper's attributes and the needy's attribute. Currently, each turtle will have a random help-capacity from 0.1 - 0.5. The factors that will be checked from the needy side are: age, gender, health-condition (true if has, false if doesn't have) and the scenario (fainting, carrying, or accident). On the other hand, the factors that will be checked from the helper side are: age, gender, and the number of links connected to it (the number of people in a group).
 ==================================================
 Ex.
@@ -760,7 +759,7 @@ helping-probability = .5 + .2 = .5
 // deduct .2 because the link of neighbors is 2
 helping-probability = .5 - .2 = .3
 =================================================
-4. Helping probability will be checked, and if it is greater than .70, it will help, else not. If can help, the needy and the helper will move at the same patch (as if the helper is helping the needy) for a while and the patch beside them will become green as an indicator that helping is happening. The count of help from male and female is updated and the count for helpers who received helped is also obtained. The distribution of age from both helpers who helped and needys who received help are also being monitored. 
+4. Helping probability will be checked, and if it is greater than the value of helping threshold, it will help, else not. If can help, the needy and the helper will move at the same patch (as if the helper is helping the needy) for a while and the patch beside them will become green as an indicator that helping is happening. The count of help from male and female is updated and the count for helpers who received helped is also obtained. The distribution of age from both helpers who helped and needys who received help are also being monitored. 
 
 
 ## HOW TO USE IT
@@ -1131,7 +1130,7 @@ NetLogo 6.0.4
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment 1 static" repetitions="10" runMetricsEveryStep="true">
+  <experiment name="experiment 1 static" repetitions="1" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <metric>help-from-man?</metric>
@@ -1142,16 +1141,17 @@ NetLogo 6.0.4
     <enumeratedValueSet variable="needy-percentage">
       <value value="0.2"/>
     </enumeratedValueSet>
+    <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
     <enumeratedValueSet variable="nature">
       <value value="&quot;static&quot;"/>
     </enumeratedValueSet>
     <steppedValueSet variable="cost-of-helping" first="0" step="0.1" last="0.5"/>
-    <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
+    <steppedValueSet variable="helping-treshold" first="0.6" step="0.1" last="0.9"/>
     <enumeratedValueSet variable="population">
       <value value="1000"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="experiment 1 moving" repetitions="10" runMetricsEveryStep="true">
+  <experiment name="experiment 1 moving" repetitions="1" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <metric>help-from-man?</metric>
@@ -1162,11 +1162,12 @@ NetLogo 6.0.4
     <enumeratedValueSet variable="needy-percentage">
       <value value="0.2"/>
     </enumeratedValueSet>
+    <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
     <enumeratedValueSet variable="nature">
       <value value="&quot;moving&quot;"/>
     </enumeratedValueSet>
     <steppedValueSet variable="cost-of-helping" first="0" step="0.1" last="0.5"/>
-    <steppedValueSet variable="needy-women-percentage" first="0.1" step="0.1" last="0.5"/>
+    <steppedValueSet variable="helping-treshold" first="0.6" step="0.1" last="0.9"/>
     <enumeratedValueSet variable="population">
       <value value="1000"/>
     </enumeratedValueSet>
